@@ -1,10 +1,14 @@
 import express from "express";
 
+import healthRoute from "./routes/health.routes.js";
+
 const app = express();
+
+app.use("/health", healthRoute);
 
 app.get("/", (req, res) => {
 
-    res.status(200).json({
+    res.json({
 
         success: true,
 
