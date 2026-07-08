@@ -3,6 +3,30 @@
 A full-stack MERN application that allows authenticated users to upload PDF documents, extract text, search document content, and interact with an AI assistant powered by Google's Gemini API.
 
 ---
+# 📷 Final Look of WebPage
+
+## Dashboard Page
+
+![Login](./ScreenshotImageofPostman/final-dashboard.png)
+
+---
+## Documents Page
+
+![Login](./ScreenshotImageofPostman/fina-document.png)
+
+---
+
+## Ask Page / Query Page
+
+![Login](./ScreenshotImageofPostman/final-ask.png)
+
+---
+
+## History Page
+
+![Login](./ScreenshotImageofPostman/final-history.png)
+
+---
 
 # 🚀 Features
 
