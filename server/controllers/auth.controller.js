@@ -6,7 +6,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import {
   accessTokenCookieOptions,
   refreshTokenCookieOptions,
-} from "../config/cookieOptions.js";
+} from "../config/cookieoptions.js";
 
 const generateTokens = (user) => {
   const accessToken = user.generateAccessToken();
