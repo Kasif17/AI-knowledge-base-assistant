@@ -22,7 +22,7 @@ const extractFromPdf = async (filePath) => {
     try {
         const [textResult, infoResult] = await Promise.all([
             parser.getText(),
-            parser.getInfo().catch(() => null), // page count is a nice-to-have, not worth failing the whole extraction over
+            parser.getInfo().catch(() => null), 
         ]);
 
         const text = (textResult.text || "").trim().slice(0, MAX_CHARS);
@@ -32,7 +32,6 @@ const extractFromPdf = async (filePath) => {
             pageCount: infoResult?.total ?? null,
         };
     } finally {
-        // Always release the parser's resources, success or failure
         await parser.destroy();
     }
 };

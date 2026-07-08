@@ -4,7 +4,7 @@ import { askQuestion, getHistory } from "../controllers/conversation.controller.
 
 const router = Router();
 
-// Every conversation route requires a logged-in user
+
 router.use(verifyJWT);
 
 router.post("/ask", askQuestion);

@@ -3,11 +3,6 @@ import Conversation from "../models/Conversation.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-/**
- * @route   GET /api/v1/dashboard
- * @access  Private
- * Returns: total documents, total questions, recent uploads, recent chats
- */
 export const getDashboard = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 

@@ -4,9 +4,6 @@ import MarkdownIt from "markdown-it";
 const MAX_CHARS = 100000;
 const md = new MarkdownIt();
 
-// Strips rendered HTML down to plain text so headings, lists, links, etc.
-// all become readable, searchable text rather than raw markup or raw
-// markdown syntax (#, *, [text](url)...).
 const stripHtml = (html) =>
     html
         .replace(/<[^>]*>/g, " ") // drop tags

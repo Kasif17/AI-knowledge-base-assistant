@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js"; // adjust path to match your project
+import User from "../models/user.model.js"; 
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -8,8 +8,6 @@ import {
     refreshTokenCookieOptions,
 } from "../config/cookieOptions.js";
 
-// Generates both tokens for a given user document.
-// Kept as a helper since register/login/refresh all need it.
 const generateTokens = (user) => {
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
@@ -19,7 +17,6 @@ const generateTokens = (user) => {
 export const registerUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
-    // --- 1. Basic input validation ---
     if (
         [firstName, lastName, email, password].some(
             (field) => !field || field.trim() === ""
@@ -31,14 +28,10 @@ export const registerUser = asyncHandler(async (req, res) => {
     if (password.length < 8) {
         throw new ApiError(400, "Password must be at least 8 characters long");
     }
-
-    // --- 2. Check if the email already exists ---
     const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
         throw new ApiError(409, "An account with this email already exists");
     }
-
-    // --- 3. Create the user (password is hashed automatically via the pre-save hook) ---
     const user = await User.create({
         firstName,
         lastName,
@@ -46,22 +39,16 @@ export const registerUser = asyncHandler(async (req, res) => {
         password,
     });
 
-    // --- 4 & 5. Generate access + refresh tokens ---
     const { accessToken, refreshToken } = generateTokens(user);
 
-    // --- Update lastLogin since registering effectively logs the user in ---
     user.lastLogin = new Date();
     await user.save({ validateBeforeSave: false });
 
-    // Re-fetch without the password field (schema has select: false on password,
-    // but the in-memory doc from .create() still holds it, so we don't reuse it)
     const createdUser = await User.findById(user._id);
 
     if (!createdUser) {
         throw new ApiError(500, "Something went wrong while registering the user");
     }
-
-    // --- 6. Set secure HTTP-only cookies ---
     return res
         .status(201)
         .cookie("accessToken", accessToken, accessTokenCookieOptions)
@@ -81,13 +68,9 @@ export const loginUser = asyncHandler(async (req, res) => {
     if (!email || !password) {
         throw new ApiError(400, "Email and password are required");
     }
-
-    // Password has select: false on the schema, so it must be explicitly requested
     const user = await User.findOne({ email: email.toLowerCase().trim() }).select(
         "+password"
     );
-
-    // Same error for "no user" and "wrong password" — don't leak which one failed
     if (!user) {
         throw new ApiError(401, "Invalid email or password");
     }
@@ -103,11 +86,10 @@ export const loginUser = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = generateTokens(user);
 
-    // --- Update lastLogin ---
     user.lastLogin = new Date();
     await user.save({ validateBeforeSave: false });
 
-    const loggedInUser = await User.findById(user._id); // excludes password by default
+    const loggedInUser = await User.findById(user._id);
 
     return res
         .status(200)
@@ -123,7 +105,6 @@ export const loginUser = asyncHandler(async (req, res) => {
 });
 
 export const refreshAccessToken = asyncHandler(async (req, res) => {
-    // Support both cookie-based (browser) and body-based (mobile/Postman) clients
     const incomingRefreshToken =
         req.cookies?.refreshToken || req.body?.refreshToken;
 
@@ -138,7 +119,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET
         );
     } catch (err) {
-        // Covers both expired and tampered/invalid tokens
+  
         throw new ApiError(401, "Refresh token is invalid or expired");
     }
 

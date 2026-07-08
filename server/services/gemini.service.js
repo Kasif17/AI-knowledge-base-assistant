@@ -1,8 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import ApiError from "../utils/ApiError.js";
 
-// Lazily initialized so a missing API key only breaks things when someone
-// actually tries to ask a question, not at server boot.
 let ai = null;
 const getClient = () => {
     if (!ai) {
@@ -46,8 +44,6 @@ export const askGemini = async (prompt) => {
     } catch (err) {
         if (err instanceof ApiError) throw err;
 
-        // Normalize whatever shape the SDK throws (network error, HTTP error
-        // object, etc.) into status codes the rest of the app understands.
         const status = err.status || err.response?.status || err.code;
 
         if (status === 401 || status === 403) {

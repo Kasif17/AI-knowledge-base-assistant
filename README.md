@@ -236,3 +236,9 @@ The following screenshot shows the successful response of the **Document Search 
 ## AI Chat
 
 ![AI Chat](./ScreenshotImageofPostman/askquestionanswerrespone.png)
+
+## DashBoard
+
+![Search](./ScreenshotImageofPostman/dashboard.png)
+
+---

@@ -11,11 +11,8 @@ import {
 
 const router = Router();
 
-// Every document route requires a logged-in user
 router.use(verifyJWT);
 
-// IMPORTANT: /search must be registered BEFORE /:id, otherwise Express
-// will match "search" as an :id param and hit the wrong controller.
 router.get("/search", searchDocuments);
 
 router.post("/upload", upload.single("file"), uploadDocument);

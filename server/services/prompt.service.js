@@ -1,9 +1,4 @@
-// Keeps prompt construction in one place so the format is consistent and
-// easy to tune later without touching the controller or the Gemini service.
 
-// How much of the document to actually send to the model. This is a
-// separate cap from what's stored in MongoDB (Document.textContent can be
-// up to 100k chars) — it protects token usage/cost on every single question.
 const MAX_CONTEXT_CHARS = 15000;
 
 /**

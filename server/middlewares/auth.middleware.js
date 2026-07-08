@@ -3,17 +3,6 @@ import User from "../models/user.model.js"; // adjust path to match your project
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-/**
- * verifyJWT
- *
- * Reads the access token from the accessToken cookie, or falls back to
- * an `Authorization: Bearer <token>` header for non-browser clients
- * (Postman, mobile apps, server-to-server calls).
- *
- * On success, attaches the full user document (minus password) to req.user.
- * On failure, throws a 401 — the global error handler turns this into
- * a standardized JSON response.
- */
 const verifyJWT = asyncHandler(async (req, res, next) => {
     const tokenFromCookie = req.cookies?.accessToken;
     const authHeader = req.headers.authorization;
@@ -27,7 +16,6 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
         throw new ApiError(401, "Access token is missing. Please log in.");
     }
 
-    // --- Verify the token ---
     let decoded;
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -39,10 +27,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
         throw new ApiError(401, "Invalid access token");
     }
 
-    // --- Load the user from MongoDB ---
-    // Re-fetching (rather than trusting the token payload) means role/active
-    // status changes take effect immediately instead of waiting for the
-    // token to expire.
+
     const user = await User.findById(decoded.id);
 
     if (!user) {
