@@ -11,6 +11,7 @@ import errorHandler from "./middlewares/error.middleware.js";
 
 import healthRoute from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import documentRoutes from "./routes/document.routes.js";
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/documents", documentRoutes);
 app.use("/health", healthRoute);
 
 app.use(notFound);
