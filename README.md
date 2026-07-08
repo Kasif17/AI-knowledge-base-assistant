@@ -230,6 +230,7 @@ The following screenshot shows the successful response of the **Document Search 
 # 👨‍💻 Author
 
 **Mohd Kasif Khan**
+**itskasif3@gmail.com**
 ---
 
 # 📷 Postman API Screenshots
