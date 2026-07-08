@@ -1,5 +1,5 @@
 import path from "path";
-import Document from "../models/document.model.js";
+import Document from "../models/Document.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
