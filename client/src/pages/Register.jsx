@@ -24,7 +24,8 @@ const Register = () => {
       values.firstName,
       values.lastName,
       values.email,
-      values.password
+      values.password,
+      values.confirmPassword 
     );
     if (result.success) {
       toast.success("Account created");

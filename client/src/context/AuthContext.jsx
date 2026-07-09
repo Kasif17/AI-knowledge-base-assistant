@@ -58,15 +58,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (firstName, lastName, email, password) => {
-    try {
-      const res = await registerRequest({ firstName, lastName, email, password });
-      persistSession(res.data.user, res.data.accessToken);
-      return { success: true };
-    } catch (err) {
-      return { success: false, message: getErrorMessage(err) };
-    }
-  };
+const register = async (firstName, lastName, email, password, confirmPassword) => {
+  try {
+    const res = await registerRequest({ firstName, lastName, email, password, confirmPassword });
+    persistSession(res.data.user, res.data.accessToken);
+    return { success: true };
+  } catch (err) {
+    return { success: false, message: getErrorMessage(err) };
+  }
+};
 
   const logout = async () => {
     try {
